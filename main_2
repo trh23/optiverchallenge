@@ -21,21 +21,21 @@ while 1:
     ### stage one: find opportunity between market A and market B ###
     now = datetime.datetime.now()
     bookA = e.get_last_price_book(instrument_id_A)
-    request_count +=1
-    if request_count == 25:
-        count_end = time.time()
-        if count_end - count_start <= 1:
-            time.sleep(1-count_end+count_start)
-            request_count = 0
-            count_start = time.time()
+    #request_count +=1
+    #if request_count == 25:
+    #    count_end = time.time()
+    #    if count_end - count_start <= 1:
+    #        time.sleep(1-count_end+count_start)
+    #        request_count = 0
+    #        count_start = time.time()
     bookB = e.get_last_price_book(instrument_id_B)
-    request_count +=1
-    if request_count == 25:
-        count_end = time.time()
-        if count_end - count_start <= 1:
-            time.sleep(1-count_end+count_start)
-            request_count = 0
-            count_start = time.time()
+    #request_count +=1
+    #if request_count == 25:
+    #    count_end = time.time()
+    #    if count_end - count_start <= 1:
+    #        time.sleep(1-count_end+count_start)
+    #        request_count = 0
+    #        count_start = time.time()
     
     # find the bestBids and bestAsks and their Volume
     if len(bookA.asks) != 0 and len(bookA.bids) != 0 and len(bookB.asks) != 0 and len(bookB.bids) != 0:
@@ -158,20 +158,20 @@ while 1:
     # fetch lists of current outstanding orders in both A and B [list]
     OordersA = e.get_outstanding_orders(instrument_id_A)
     request_count +=1
-    if request_count == 25:
-        count_end = time.time()
-        if count_end - count_start <= 1:
-            time.sleep(1-count_end+count_start)
-            request_count = 0
-            count_start = time.time()
+    #if request_count == 25:
+    #    count_end = time.time()
+    #    if count_end - count_start <= 1:
+    #        time.sleep(1-count_end+count_start)
+    #        request_count = 0
+    #        count_start = time.time()
     OordersB = e.get_outstanding_orders(instrument_id_B)
-    request_count +=1
-    if request_count == 25:
-        count_end = time.time()
-        if count_end - count_start <= 1:
-            time.sleep(1-count_end+count_start)
-            request_count = 0
-            count_start = time.time()
+    #request_count +=1
+    #if request_count == 25:
+    #    count_end = time.time()
+    #    if count_end - count_start <= 1:
+    #        time.sleep(1-count_end+count_start)
+    #        request_count = 0
+    #        count_start = time.time()
     print(OordersA, OordersB)
 
     # check to see if outstanding order need to be changed
