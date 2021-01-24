@@ -57,7 +57,7 @@ while 1:
         tradesY = e.poll_new_trades(marketToSell)
         for trade in tradesX:
             if trade.side == 'ask':
-                e.insert_order(marketToSell, price=bestBid.price, volume=trade.volume, side='ask', order_type='ioc')
+                e.insert_order(marketToSell, price=bestBid.price, volume=trade.volume, side='bid', order_type='ioc')
                 request_count +=1
                 if request_count == 25:
                     count_end = time.time()
@@ -66,7 +66,7 @@ while 1:
                         request_count = 0
                         count_start = time.time()
             else:
-                e.insert_order(marketToSell, price=bestAsk.price, volume=trade.volume, side='bid', order_type='ioc')
+                e.insert_order(marketToSell, price=bestAsk.price, volume=trade.volume, side='ask', order_type='ioc')
                 request_count +=1
                 if request_count == 25:
                     count_end = time.time()
@@ -76,7 +76,7 @@ while 1:
                         count_start = time.time()
         for trade in tradesY:
             if trade.side == 'ask':
-                e.insert_order(marketToBuy, price=bestBid.price, volume=trade.volume, side='ask', order_type='ioc')
+                e.insert_order(marketToBuy, price=bestBid.price, volume=trade.volume, side='bid', order_type='ioc')
                 request_count +=1
                 if request_count == 25:
                     count_end = time.time()
@@ -85,7 +85,7 @@ while 1:
                         request_count = 0
                         count_start = time.time()
             else:
-                e.insert_order(marketToBuy, price=bestAsk.price, volume=trade.volume, side='bid', order_type='ioc')
+                e.insert_order(marketToBuy, price=bestAsk.price, volume=trade.volume, side='ask', order_type='ioc')
                 request_count +=1
                 if request_count == 25:
                     count_end = time.time()
@@ -157,7 +157,7 @@ while 1:
     ### stage three: check on outstanding orders (need amend or delete?) ###
     # fetch lists of current outstanding orders in both A and B [list]
     OordersA = e.get_outstanding_orders(instrument_id_A)
-    request_count +=1
+    #request_count +=1
     #if request_count == 25:
     #    count_end = time.time()
     #    if count_end - count_start <= 1:
@@ -181,80 +181,81 @@ while 1:
             if order.side == 'bid':
                 if order.price < bestBid.price:
                     e.amend_order(instrument_id=instrument_id_A, order_id=order.order_id, volume=bestBid.volume)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
                 else:
                     e.delete_order(instrument_id=instrument_id_A, order_id=order.order_id)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
                     
             else:
                 if order.price > bestAsk.price:
                     e.amend_order(instrument_id=instrument_id_A, order_id=order.order_id, volume=bestAsk.volume)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
                 else:
                     e.delete_order(instrument_id=instrument_id_A, order_id=order.order_id)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
     if type(OordersB) == list:
         for order in OordersB:
             if order.side == 'bid':
                 if order.price < bestBid.price:
                     e.amend_order(instrument_id=instrument_id_B, order_id=order.order_id, volume=bestBid.volume)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
                 else:
                     e.delete_order(instrument_id=instrument_id_B, order_id=order.order_id)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
             else:
                 if order.price > bestAsk.price:
                     e.amend_order(instrument_id=instrument_id_B, order_id=order.order_id, volume=bestAsk.volume)
                     request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
                 else:
                     e.delete_order(instrument_id=instrument_id_B, order_id=order.order_id)
-                    #request_count +=1
-                    #if request_count == 25:
-                    #    count_end = time.time()
-                    #    if count_end - count_start <= 1:
-                    #        time.sleep(1-count_end+count_start)
-                    #        request_count = 0
-                    #        count_start = time.time()
+                    request_count +=1
+                    if request_count == 25:
+                        count_end = time.time()
+                        if count_end - count_start <= 1:
+                            time.sleep(1-count_end+count_start)
+                            request_count = 0
+                            count_start = time.time()
     print(e.get_positions())
+    
